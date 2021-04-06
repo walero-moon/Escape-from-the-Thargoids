@@ -15,9 +15,10 @@ class PlayerLaser(Sprite):
         self.rect.x = player_pos[0] + 34
         self.rect.y = player_pos[1]
     
-    def update(self):
+    def update(self) -> None:
         """ Moves the projectile """
         self.rect.y -= 15
 
         if self.rect.y < -60:
             self.kill()
+            print('laser died')
