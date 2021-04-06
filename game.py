@@ -1,3 +1,8 @@
-from game.controllers.main import main
+from game.controllers.main import GameController
 
-main()
+def main():
+    game = GameController()
+    game.execute()
+
+if __name__ == "__main__":
+    main()

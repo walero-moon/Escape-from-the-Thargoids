@@ -2,49 +2,47 @@ import pygame
 import pygame.locals
 from ..models.player import PlayerShip
 from ..models.player_laser import PlayerLaser
+from .player_controller import PlayerController
 from pygame.sprite import Sprite
+from ..constants import WIDTH, HEIGHT, P_SHOOT_COOLDOWN
 
-def main():
-    pygame.init()
-    window = pygame.display.set_mode((550, 900))
-    clock = pygame.time.Clock()
+class GameController():
+    """ Game's main controller """
+    def __init__(self):
+        pygame.init()
+        # Game's window
+        self._window = pygame.display.set_mode((WIDTH, HEIGHT))
+        # Player instance
+        self._player = PlayerShip()
+        # Player's lasers
+        self._player_controller = PlayerController(self._player)
+        # Background art
+        self._background = pygame.image.load("./game/sprites/background.png")
+        # Clock
+        self._clock = pygame.time.Clock()
 
-    player = PlayerShip()
-    background = pygame.image.load("./game/sprites/background.png")
-    player_lasers = pygame.sprite.Group()
+    def execute(self):
+        """ Contains the game's main logic and loop """
+        running = True
+        while running:
+            self._window.fill((0, 0, 0))
+            self._clock.tick(60)
 
-    last_fire = 0
-    cooldown = 500 # miliseconds
+            # Closing the game
+            for event in pygame.event.get():
+                if event.type == pygame.locals.QUIT:
+                    running = False
 
-    running = True
-    while running:
-        window.fill((0, 0, 0))
-        clock.tick(60)
+            # Player movement
+            keys = pygame.key.get_pressed()
+            self._player_controller.action(keys)
 
-        for event in pygame.event.get():
-            if event.type == pygame.locals.QUIT:
-                running = False
+            self._player_controller.lasers.update()
+            self._window.blit(self._background, (0, 0))
+            self._player_controller.lasers.draw(self._window)
+            self._window.blit(self._player.image, self._player.rect)
+            pygame.display.update()
 
-        keys = pygame.key.get_pressed()
-        if keys[pygame.locals.K_RIGHT]:
-            player.rect.x = min(player.rect.x + 5, 470)
-        if keys[pygame.locals.K_LEFT]:
-            player.rect.x = max(player.rect.x - 5, 0)
-        if keys[pygame.locals.K_UP]:
-            player.rect.y = max(player.rect.y - 5, 0)
-        if keys[pygame.locals.K_DOWN]:
-            player.rect.y = min(player.rect.y + 5, 820)
-
-        # Shooting projectile
-        if keys[pygame.locals.K_SPACE]:
-            current_ticks = pygame.time.get_ticks()
-            if current_ticks > last_fire + cooldown:
-                last_fire = current_ticks
-                laser = PlayerLaser((player.rect.x, player.rect.y))
-                player_lasers.add(laser)
-
-        player_lasers.update()
-        window.blit(background, (0, 0))
-        player_lasers.draw(window)
-        window.blit(player.image, player.rect)
-        pygame.display.update()
+if __name__ == "__main__":
+    controller = GameController()
+    controller.execute()
