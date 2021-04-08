@@ -5,6 +5,7 @@ from .player_controller import PlayerController
 from ..models.enemy_ship import EnemyShip
 from .enemy_controller import EnemyController
 from ..constants import WIDTH, HEIGHT, P_SHOOT_COOLDOWN
+from ..views.main_view import MainView
 
 class GameController():
     """ Game's main controller """
@@ -23,6 +24,10 @@ class GameController():
         # Enemy
         self._first_enemy = EnemyShip()
         self._enemy_controller = EnemyController(self._first_enemy)
+
+        # Views
+        self._main_view = MainView(self._window, self._player, 
+            self._player_controller.lasers, self._enemy_controller.enemies)
 
     def execute(self):
         """ Contains the game's main logic and loop """
@@ -49,23 +54,15 @@ class GameController():
                     enemy):
                         laser.kill()
                         enemy.kill()
-
             
             for enemy in self._enemy_controller.enemies:
                 if pygame.sprite.collide_mask(self._player, enemy):
                     enemy.kill()
 
-            # Update screen
             self._enemy_controller.enemies.update()
             self._player_controller.lasers.update()
-
-            self._window.blit(self._background, (0, 0))
-
-            self._player_controller.lasers.draw(self._window)
-            self._enemy_controller.enemies.draw(self._window)
-            
-            self._window.blit(self._player.image, self._player.rect)
-            pygame.display.update()
+            # Update screen
+            self._main_view.update()
 
 if __name__ == "__main__":
     controller = GameController()

@@ -1,7 +1,8 @@
 # This file will end up being huge, but that is to facilitate modifying
 # player speed, projectile speed, projectile size, etc.
 
-
+# Main game's window
+BACKGROUND = "game/sprites/background.png"
 WIDTH = 550
 HEIGHT = 900
 
