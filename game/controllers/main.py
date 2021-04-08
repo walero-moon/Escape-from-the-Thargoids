@@ -44,31 +44,22 @@ class GameController():
             self._enemy_controller.spawn()
 
             for laser in self._player_controller.lasers:
-                if pygame.sprite.spritecollide(laser, 
-                self._enemy_controller.enemies, dokill=True):
-                    laser.kill()
+                for enemy in self._enemy_controller.enemies:
+                    if pygame.sprite.collide_mask(laser, 
+                    enemy):
+                        laser.kill()
+                        enemy.kill()
 
             
-            
-            pygame.sprite.spritecollide(self._player, 
-            self._enemy_controller.enemies, True)
+            for enemy in self._enemy_controller.enemies:
+                if pygame.sprite.collide_mask(self._player, enemy):
+                    enemy.kill()
 
             # Update screen
             self._enemy_controller.enemies.update()
             self._player_controller.lasers.update()
 
             self._window.blit(self._background, (0, 0))
-
-            pygame.draw.rect(self._window, (255, 0, 0),
-            self._player.rect, 2)
-
-            for enemy in self._enemy_controller.enemies:
-                pygame.draw.rect(self._window, (255, 0, 0),
-                enemy, 2)
-
-            for laser in self._player_controller.lasers:
-                pygame.draw.rect(self._window, (255, 0, 0),
-                laser, 2)
 
             self._player_controller.lasers.draw(self._window)
             self._enemy_controller.enemies.draw(self._window)
