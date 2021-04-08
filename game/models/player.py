@@ -11,4 +11,4 @@ class PlayerShip(Sprite):
         self.rect = self.image.get_rect()
         self.rect.x = 235
         self.rect.y = 775
-
+        self.rect.inflate_ip(0, -18)

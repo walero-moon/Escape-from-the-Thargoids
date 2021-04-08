@@ -1,9 +1,9 @@
 import pygame
-import pygame.locals
 from ..models.player import PlayerShip
 from ..models.player_laser import PlayerLaser
 from .player_controller import PlayerController
 from ..models.enemy_ship import EnemyShip
+from .enemy_controller import EnemyController
 from ..constants import WIDTH, HEIGHT, P_SHOOT_COOLDOWN
 
 class GameController():
@@ -21,9 +21,8 @@ class GameController():
         # Clock
         self._clock = pygame.time.Clock()
         # Enemy
-        self._enemy_ship = EnemyShip(235)
-        self._enemies = pygame.sprite.Group()
-        self._enemies.add(self._enemy_ship)
+        self._first_enemy = EnemyShip()
+        self._enemy_controller = EnemyController(self._first_enemy)
 
     def execute(self):
         """ Contains the game's main logic and loop """
@@ -41,13 +40,40 @@ class GameController():
             keys = pygame.key.get_pressed()
             self._player_controller.action(keys)
 
+            # Enemies
+            self._enemy_controller.spawn()
+
+            for laser in self._player_controller.lasers:
+                if pygame.sprite.spritecollide(laser, 
+                self._enemy_controller.enemies, dokill=True):
+                    laser.kill()
+
+            
+            
+            pygame.sprite.spritecollide(self._player, 
+            self._enemy_controller.enemies, True)
+
             # Update screen
+            self._enemy_controller.enemies.update()
             self._player_controller.lasers.update()
+
             self._window.blit(self._background, (0, 0))
+
+            pygame.draw.rect(self._window, (255, 0, 0),
+            self._player.rect, 2)
+
+            for enemy in self._enemy_controller.enemies:
+                pygame.draw.rect(self._window, (255, 0, 0),
+                enemy, 2)
+
+            for laser in self._player_controller.lasers:
+                pygame.draw.rect(self._window, (255, 0, 0),
+                laser, 2)
+
             self._player_controller.lasers.draw(self._window)
+            self._enemy_controller.enemies.draw(self._window)
+            
             self._window.blit(self._player.image, self._player.rect)
-            self._enemies.update()
-            self._enemies.draw(self._window)
             pygame.display.update()
 
 if __name__ == "__main__":
