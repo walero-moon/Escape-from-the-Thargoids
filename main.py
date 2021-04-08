@@ -1,4 +1,4 @@
-from game.controllers.main import GameController
+from game.controllers.game import GameController
 
 def main():
     game = GameController()
