@@ -21,4 +21,3 @@ class PlayerLaser(Sprite):
 
         if self.rect.y < -60:
             self.kill()
-            print('laser died')

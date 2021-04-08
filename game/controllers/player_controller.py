@@ -30,8 +30,8 @@ class PlayerController():
             self.player.rect.y = min(self.player.rect.y + 5, 820)
             print('Key down')
         # Shoot 
-        if keys[pygame.locals.K_SPACE]:
-            print('Key space')
+        if keys[pygame.locals.K_z]:
+            print('Key Z')
             current_ticks = pygame.time.get_ticks()
             if current_ticks > self._last_fired + P_SHOOT_COOLDOWN:
                 self._last_fired = current_ticks
