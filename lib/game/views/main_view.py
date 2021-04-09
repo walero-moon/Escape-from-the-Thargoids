@@ -1,5 +1,6 @@
 import pygame
 from ..constants import BACKGROUND
+from .background import Background
 
 class MainView():
     """ Main view of the game. Renders """
@@ -8,12 +9,15 @@ class MainView():
         self._player = player
         self._p_lasers = p_lasers
         self._enemies = enemies
-        self._background = pygame.image.load(BACKGROUND)
+        self._background = Background()
+        self._background_group = pygame.sprite.Group()
+        self._background_group.add(self._background)
     
     def update(self):
         """ Updates the entire game window """
-        # Set background image
-        self._window.blit(self._background, (0, 0))
+        # Background
+        self._background_group.update()
+        self._background_group.draw(self._window)
         # Draw lasers
         self._p_lasers.draw(self._window)
         # Draw player

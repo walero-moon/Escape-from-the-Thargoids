@@ -2,7 +2,7 @@
 # player speed, projectile speed, projectile size, etc.
 
 # Main game's window
-BACKGROUND = "lib/game/sprites/background.png"
+BACKGROUND = "lib/game/sprites/background"
 WIDTH = 550
 HEIGHT = 900
 
