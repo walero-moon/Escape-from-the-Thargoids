@@ -3,11 +3,11 @@
 
 # Main game's window
 BACKGROUND = "lib/game/sprites/background"
-WIDTH = 550
+WIDTH = 1500
 HEIGHT = 900
 
 # Player's constants
-P_SPRITE = "lib/game/sprites/player/player_ship.png"
+P_SPRITES = "lib/game/sprites/player/ship_sprites"
 P_SCALE = (80, 80) # Must be a tuple. (x, y)
 P_LASER_SPRITES = "lib/game/sprites/player/laser_sprites" # Relative to repo root
 P_LASER_SCALE = (300, 0) # X and Y

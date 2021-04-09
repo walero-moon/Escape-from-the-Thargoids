@@ -15,16 +15,16 @@ class PlayerController():
         """ Takes the keyboard inputs and decides how to move the player """
         # Right
         if keys[pygame.locals.K_RIGHT] or keys[pygame.locals.K_d]:
-            self.player.rect.x = min(self.player.rect.x + 5, 470)
+            self.player.rect.x = min(self.player.rect.x + 5, 457)
         #Left
         if keys[pygame.locals.K_LEFT] or keys[pygame.locals.K_a]:
-            self.player.rect.x = max(self.player.rect.x - 5, 0)
+            self.player.rect.x = max(self.player.rect.x - 5, -7)
         # Up
         if keys[pygame.locals.K_UP] or keys[pygame.locals.K_w]:
             self.player.rect.y = max(self.player.rect.y - 5, 0)
         # Down
         if keys[pygame.locals.K_DOWN] or keys[pygame.locals.K_s]:
-            self.player.rect.y = min(self.player.rect.y + 5, 820)
+            self.player.rect.y = min(self.player.rect.y + 5, 750)
         # Shoot 
         if keys[pygame.locals.K_z] or keys[pygame.locals.K_k]:
             current_ticks = pygame.time.get_ticks()
