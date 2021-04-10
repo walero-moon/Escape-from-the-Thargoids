@@ -8,8 +8,6 @@ class ScoreManager():
         self._filename = filename
 
         file_location = f'{file_location}/' if file_location != '' else ''
-        print(f'{file_location}{filename}')
-        print(os.path.exists(f'{file_location}{filename}'))
         if not os.path.exists(f'{file_location}{filename}'):
             return None
 
@@ -18,7 +16,6 @@ class ScoreManager():
             json_data = json.load(f)
 
             for score in json_data:
-                print(score)
                 to_append = Score()
                 to_append.name = score['name']
                 to_append.km = score['km']
