@@ -1,5 +1,7 @@
 import pygame
-from ..constants import WIDTH, HEIGHT, P_SHOOT_COOLDOWN
+import requests
+
+from ..constants import WIDTH, HEIGHT, P_SHOOT_COOLDOWN, API_URL
 # Player
 from ..models.player import PlayerShip
 from ..models.player_laser import PlayerLaser
@@ -33,7 +35,7 @@ class GameController():
             self._player_controller.lasers, self._enemy_controller.enemies)
         # Score
         self._score = Score()
-        self._score.name = "HAHAHAHAHAHAHAHA"
+        self._score.name = "hati"
         self._score_manager = ScoreManager()
 
     def execute(self):
@@ -47,14 +49,16 @@ class GameController():
             # Closing the game
             for event in pygame.event.get():
                 if event.type == pygame.locals.QUIT:
+                    # Saving locally
                     self._score_manager.add_score(self._score)
                     self._score_manager.save()
+                    # Sending to API
+                    requests.put(f"{API_URL}", json=self._score.json)
                     running = False
 
             # Player movement
             keys = pygame.key.get_pressed()
             self._player_controller.action(keys)
-
             # Enemies
             self._enemy_controller.spawn()
 

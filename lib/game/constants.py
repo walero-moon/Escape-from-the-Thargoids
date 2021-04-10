@@ -3,7 +3,7 @@
 
 # Main game's window
 BACKGROUND = "lib/game/sprites/background"
-WIDTH = 1500
+WIDTH = 1600
 HEIGHT = 900
 
 # Player's constants
@@ -15,4 +15,7 @@ P_SHOOT_COOLDOWN = 500 # miliseconds between shots
 
 # Enemy's constants
 E_SPRITE = "lib/game/sprites/enemy_ship.png"
-E_SCALE = (53, 90) # x and y
+E_SCALE = (0, 0) # x and y
+
+# API
+API_URL = 'http://localhost:5000/json'
