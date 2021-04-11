@@ -16,5 +16,5 @@ class EnemyShip(Sprite):
     def update(self) -> None:
         """ Moves the ship """
         self.rect.x -= 4
-        if self.rect.y > 960:
+        if self.rect.x < -100:
             self.kill()

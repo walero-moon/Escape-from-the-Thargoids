@@ -11,6 +11,7 @@ from ..models.enemy_ship import EnemyShip
 from .enemy_controller import EnemyController
 # Views
 from ..views.main_view import MainView
+from .menu_controller import MenuController
 # Score
 from ...models.score import Score
 from ...models.score_manager import ScoreManager
@@ -21,6 +22,8 @@ class GameController():
         pygame.init()
         # Game's window
         self._window = pygame.display.set_mode((WIDTH, HEIGHT))
+        # Menu
+        self._menu = MenuController(self._window)
         # Player instance
         self._player = PlayerShip()
         # Player's lasers
@@ -33,13 +36,29 @@ class GameController():
         # Views
         self._main_view = MainView(self._window, self._player, 
             self._player_controller.lasers, self._enemy_controller.enemies)
+        self._menu_controller = MenuController(self._window)
         # Score
         self._score = Score()
         self._score.name = "hati"
         self._score_manager = ScoreManager()
 
-    def execute(self):
-        """ Contains the game's main logic and loop """
+        self._state = 'menu'
+    
+    def menu(self):
+        """ Menu loop """
+        menu = True
+        while menu:
+            self._window.fill((0, 0, 0))
+            self._clock.tick(60)
+            keys = pygame.key.get_pressed()
+            if self._menu_controller.update(keys):
+                menu = False
+            for event in pygame.event.get():
+                if event.type == pygame.locals.QUIT:
+                    exit()
+    
+    def game(self):
+        """ Game's main loop """
         running = True
         while running:
             self._score.km = round(pygame.time.get_ticks() / 1000, 2)
@@ -80,6 +99,11 @@ class GameController():
             self._player_controller.lasers.update()
             # Update screen
             self._main_view.update()
+
+    def execute(self):
+        """ Contains the game's main logic and loop """
+        self.menu()
+        self.game()
 
 if __name__ == "__main__":
     controller = GameController()
