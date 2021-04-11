@@ -1,7 +1,7 @@
 import pygame
 import os
 from pygame.sprite import Sprite
-from ..constants import P_SPRITES, P_SCALE
+from ..constants import P_SPRITES
 
 class PlayerShip(Sprite):
     """ Defines the player's ship """

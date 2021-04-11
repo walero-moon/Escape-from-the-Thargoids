@@ -8,13 +8,12 @@ HEIGHT = 900
 
 # Player's constants
 P_SPRITES = "lib/game/sprites/player/ship_sprites"
-P_SCALE = (80, 80) # Must be a tuple. (x, y)
 P_LASER_SPRITES = "lib/game/sprites/player/laser_sprites" # Relative to repo root
-P_LASER_SCALE = (300, 0) # X and Y
-P_SHOOT_COOLDOWN = 500 # miliseconds between shots
+P_SHOOT_COOLDOWN = 800 # miliseconds between shots
 
 # Enemy's constants
-E_SPRITE = "lib/game/sprites/enemy_ship.png"
+E_SPRITE = "lib/game/sprites/enemy_ship/Ship6.png"
+E_EXPLOSION = "lib/game/sprites/enemy_ship/explosion"
 E_SCALE = (0, 0) # x and y
 
 # API

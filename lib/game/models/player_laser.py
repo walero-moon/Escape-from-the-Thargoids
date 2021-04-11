@@ -1,7 +1,6 @@
 import pygame
 import os
 from pygame.sprite import Sprite
-from ..constants import P_LASER_SCALE as SCALE
 from ..constants import P_LASER_SPRITES as SPRITES
 
 class PlayerLaser(Sprite):
@@ -23,7 +22,7 @@ class PlayerLaser(Sprite):
     def update(self) -> None:
         """ Moves the projectile and updates the sprite"""
         # movement
-        self.rect.x += 10
+        self.rect.x += 20
         if self.rect.x > 1600:
             self.kill()
 

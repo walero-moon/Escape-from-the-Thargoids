@@ -12,7 +12,7 @@ class EnemyController():
 
     def spawn(self):
         """ Handles enemy spawning logic """
-        if (self._last_spawned + 1000) < pygame.time.get_ticks():
+        if (self._last_spawned + 1000) < pygame.time.get_ticks() and len(self.enemies) < 6:
             self._last_spawned = pygame.time.get_ticks()
             self._enemy = EnemyShip()
             self.enemies.add(self._enemy)

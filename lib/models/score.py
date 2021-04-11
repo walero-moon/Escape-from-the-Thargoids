@@ -9,7 +9,7 @@ class Score():
     @property
     def total(self) -> int:
         """ Returns the total score """
-        return self.km + self.kills + self.kill_score
+        return round(self.km + self.kills + self.kill_score)
     
     @property
     def json(self) -> dict:
