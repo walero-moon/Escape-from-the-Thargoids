@@ -11,7 +11,7 @@ def index():
     scores = {}
 
     try:
-        with open('lib/webapp/scores.json', 'r') as f:
+        with open('lib/webapp/server_scores.json', 'r') as f:
             scores = json.load(f)
     except FileNotFoundError:
         return render_template('index.html', file=False)

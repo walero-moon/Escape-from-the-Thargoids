@@ -39,7 +39,6 @@ class GameController():
         self._menu_controller = MenuController(self._window)
         # Score
         self._score = Score()
-        self._score.name = "hati"
         self._score_manager = ScoreManager()
 
         self._state = 'menu'
@@ -53,6 +52,10 @@ class GameController():
             keys = pygame.key.get_pressed()
             if self._menu_controller.update(keys):
                 menu = False
+                if self._menu_controller.name == '':
+                    self._score.name = 'Unknown'
+                else:
+                    self._score.name = self._menu_controller.name
             for event in pygame.event.get():
                 if event.type == pygame.locals.QUIT:
                     exit()

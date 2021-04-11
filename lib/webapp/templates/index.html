@@ -1,27 +1,27 @@
 {% extends "base.html"%}
 {% block main %}
-<h1>Escape from the Thargoids Scoreboard</h1>
+<h1 class='text-white'>Escape from the Thargoids Scoreboard</h1>
 {% if file == False %}
-    <strong>No scores to display at the moment.</strong>
+    <strong class='text-white'>No scores to display at the moment.</strong>
 {% else %}
     <table class='table'>
         <thead>
             <tr>
-                <th scope='col'>Player</th>
-                <th scope='col'>Total score</th>
-                <th scope='col'>Km</th>
-                <th scope='col'>Kills</th>
-                <th scope='col'>Kill score</th>
+                <th class='text-white' scope='col'>Player</th>
+                <th class='text-white' scope='col'>Total score</th>
+                <th class='text-white' scope='col'>Km</th>
+                <th class='text-white' scope='col'>Kills</th>
+                <th class='text-white' scope='col'>Kill score</th>
             </tr>
         </thead>
         <tbody>
             {% for score in scores %}
             <tr>
-                <td scope='row'>{{ score['name'] }}</td>
-                <td scope='row'>{{ score['total'] }}</td>
-                <td scope='row'>{{ score['km'] }}</td>
-                <td scope='row'>{{ score['kills'] }}</td>
-                <td scope='row'>{{ score['kill_score'] }}</td>
+                <td class='text-white' scope='row'>{{ score['name'] }}</td>
+                <td class='text-white' scope='row'>{{ score['total'] }}</td>
+                <td class='text-white' scope='row'>{{ score['km'] }}</td>
+                <td class='text-white' scope='row'>{{ score['kills'] }}</td>
+                <td class='text-white' scope='row'>{{ score['kill_score'] }}</td>
             </tr>
             {% endfor %}
         </tbody>

@@ -66,17 +66,20 @@ class MainMenu():
         player_rec_x = player.get_rect()[2]
         position_player = (WIDTH / 2) - (player_rec_x / 2)
         if selection =='name_box':
-            editing = self._font_controls.render('Press enter to start editing player name', True, self._selection_colour)
+            editing = self._font_controls.render('Press enter to start editing player name',
+            True, self._selection_colour)
             player = self._font_player.render(name, True, self._selection_colour)
             pygame.draw.line(self._window, self._selection_colour, (565, 450), (1000, 450))
             self._window.blit(editing, (WIDTH/2 - 283, 365))
         elif selection == 'name_box_selected':
-            editing = self._font_controls.render('Editing name. Press \'ESC\' to confirm name', True, self._selection_colour)
+            editing = self._font_controls.render('Editing name. Press \'ESC\' to confirm name',
+            True, self._selection_colour)
             player = self._font_player.render(name, True, self._selection_colour)
             pygame.draw.line(self._window, self._selection_colour, (565, 450), (1000, 450))
             self._window.blit(editing, (WIDTH/2 - 290, 365))
         else:
-            editing = self._font_controls.render('Select me to edit your name', True, (255, 255, 255))
+            editing = self._font_controls.render('Select me to edit your name',
+            True, (255, 255, 255))
             player = self._font_player.render(name, True, (255, 255, 255))
             pygame.draw.line(self._window, (255, 255, 255), (565, 450), (1000, 450))
             self._window.blit(editing, (WIDTH/2 - 206, 365))
