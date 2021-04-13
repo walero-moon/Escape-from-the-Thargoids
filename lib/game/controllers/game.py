@@ -12,6 +12,7 @@ from .enemy_controller import EnemyController
 # Views
 from ..views.main_view import MainView
 from .menu_controller import MenuController
+from .game_over_controller import DeathController
 # Score
 from ...models.score import Score
 from ...models.score_manager import ScoreManager
@@ -33,80 +34,110 @@ class GameController():
         # Enemy
         self._first_enemy = EnemyShip()
         self._enemy_controller = EnemyController(self._first_enemy)
+        # Score
+        self._score = Score()
+        self._score_manager = ScoreManager()
         # Views
         self._main_view = MainView(self._window, self._player, 
             self._player_controller.lasers, self._enemy_controller.enemies)
         self._menu_controller = MenuController(self._window)
-        # Score
-        self._score = Score()
-        self._score_manager = ScoreManager()
+        self._death_created = False
 
         self._state = 'menu'
+        self._sent = False
+        font = pygame.font.SysFont("Dungeon", 20, bold=True)
+        self._api_result = font.render('', True, (255, 255, 255))
     
     def menu(self):
-        """ Menu loop """
-        menu = True
-        while menu:
-            self._window.fill((0, 0, 0))
-            self._clock.tick(60)
-            keys = pygame.key.get_pressed()
-            if self._menu_controller.update(keys):
-                menu = False
-                if self._menu_controller.name == '':
-                    self._score.name = 'Unknown'
-                else:
-                    self._score.name = self._menu_controller.name
-            for event in pygame.event.get():
-                if event.type == pygame.locals.QUIT:
-                    exit()
+        """ Menu logic """
+        self._window.fill((0, 0, 0))
+        self._clock.tick(60)
+        keys = pygame.key.get_pressed()
+        if self._menu_controller.update(keys):
+            self._state = 'game'
+            if self._menu_controller.name == '':
+                self._score.name = 'Unknown'
+            else:
+                self._score.name = self._menu_controller.name
+        for event in pygame.event.get():
+            if event.type == pygame.locals.QUIT:
+                exit()
     
     def game(self):
         """ Game's main loop """
-        running = True
-        while running:
-            self._score.km = round(pygame.time.get_ticks() / 1000, 2)
-            self._window.fill((0, 0, 0))
-            self._clock.tick(60)
+        self._score.km = round(pygame.time.get_ticks() / 1000, 2)
+        self._window.fill((0, 0, 0))
+        self._clock.tick(60)
 
-            # Closing the game
-            for event in pygame.event.get():
-                if event.type == pygame.locals.QUIT:
-                    # Saving locally
-                    self._score_manager.add_score(self._score)
-                    self._score_manager.save()
-                    # Sending to API
-                    requests.put(f"{API_URL}", json=self._score.json)
-                    running = False
+        # Closing the game
+        for event in pygame.event.get():
+            if event.type == pygame.locals.QUIT:
+                exit()
 
-            # Player movement
-            keys = pygame.key.get_pressed()
-            self._player_controller.action(keys)
-            # Enemies
-            self._enemy_controller.spawn()
+        # Player movement
+        keys = pygame.key.get_pressed()
+        self._player_controller.action(keys)
+        # Enemies
+        self._enemy_controller.spawn()
 
-            for laser in self._player_controller.lasers:
-                for enemy in self._enemy_controller.enemies:
-                    if pygame.sprite.collide_mask(laser, enemy):
-                        # Increase scores
-                        self._score.kills += 1
-                        self._score.kill_score += 1
-
-                        laser.kill()
-                        enemy.kill()
-            
+        for laser in self._player_controller.lasers:
             for enemy in self._enemy_controller.enemies:
-                if pygame.sprite.collide_mask(self._player, enemy):
-                    enemy.kill()
+                if pygame.sprite.collide_mask(laser, enemy):
+                    # Increase scores
+                    self._score.kills += 1
+                    self._score.kill_score += 1
 
-            self._enemy_controller.enemies.update()
-            self._player_controller.lasers.update()
-            # Update screen
-            self._main_view.update()
+                    laser.kill()
+                    enemy.kill()
+        
+        for enemy in self._enemy_controller.enemies:
+            if pygame.sprite.collide_mask(self._player, enemy):
+                self._score_manager.add_score(self._score)
+                self._score_manager.save()
+                self._state = 'dead'
+
+        self._enemy_controller.enemies.update()
+        self._player_controller.lasers.update()
+        # Update screen
+        self._main_view.update()
+    
+    def exit(self):
+        """ Death screen logic """
+        if self._death_created == False:
+            self._death_controller = DeathController(self._window, self._score, self._api_result)
+            self._death_created = True
+        self._window.fill((0, 0, 0))
+        self._clock.tick(60)
+        keys = pygame.key.get_pressed()
+        if self._death_controller.update(keys):
+            # Sending to API
+            if self._sent == False:
+                font = pygame.font.SysFont("Dungeon", 20, bold=True)
+                try:
+                    requests.put(f"{API_URL}", json=self._score.json)
+                    self._api_result = font.render(f'Successfully uploaded score',
+                        True, (255, 255, 255))
+                except:
+                    self._api_result = font.render(f'Failed to upload. Server currently offline. Sorry',
+                        True, (255, 0, 0))
+                self._death_controller = DeathController(self._window, self._score, self._api_result)
+                self._sent = True
+        for event in pygame.event.get():
+            if event.type == pygame.locals.QUIT:
+                exit()
+        
+        self._window.blit(self._api_result, (290, 850))
 
     def execute(self):
         """ Contains the game's main logic and loop """
-        self.menu()
-        self.game()
+        running = True
+        while running:
+            if self._state == 'menu':
+                self.menu()
+            elif self._state == 'game':
+                self.game()
+            elif self._state == 'dead':
+                self.exit()
 
 if __name__ == "__main__":
     controller = GameController()
