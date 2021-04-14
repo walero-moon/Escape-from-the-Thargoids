@@ -99,7 +99,7 @@ class GameController():
         self._enemy_controller.enemies.update()
         self._player_controller.lasers.update()
         # Update screen
-        self._main_view.update()
+        self._main_view.update(self._score)
     
     def exit(self):
         """ Death screen logic """
