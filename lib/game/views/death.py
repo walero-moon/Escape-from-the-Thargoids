@@ -71,7 +71,7 @@ class DeathView():
             ((position_x + 60), 590, 122, 70), width=5, border_radius=4)
         self._window.blit(exit_text, ((position_x + 67) + 20, 601))
 
-        self._window.blit(api, (460, 850))
+        self._window.blit(api, (480, 850))
         pygame.display.update()
 
 

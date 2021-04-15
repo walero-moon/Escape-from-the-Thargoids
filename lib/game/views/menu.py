@@ -59,7 +59,7 @@ class MainMenu():
             ((2 * position_x) - 55, 500, 114, 70), width=5, border_radius=4)
         self._window.blit(exit_text, ((2 * position_x - 55) + 20, 511))
         # Blits controls
-        self._window.blit(self._controls, (290, 850))
+        self._window.blit(self._controls, (357, 850))
 
         # Blitting name
         player = self._font_player.render(name, True, (255, 255, 255))
