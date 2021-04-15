@@ -1,7 +1,7 @@
 import pygame
 import requests
 
-from ..constants import WIDTH, HEIGHT, P_SHOOT_COOLDOWN, API_URL
+from ..constants import WIDTH, HEIGHT, P_SHOOT_COOLDOWN, API_URL, SOUNDS
 # Player
 from ..models.player import PlayerShip
 from ..models.player_laser import PlayerLaser
@@ -43,6 +43,11 @@ class GameController():
         self._menu_controller = MenuController(self._window)
         self._death_created = False
 
+        # Sounds and music
+        self._main_music_playing = False
+        self._explosion_sound = pygame.mixer.Sound(f'{SOUNDS}/explosion.mp3')
+        self._explosion_sound.set_volume(0.2)
+
         self._state = 'menu'
         self._sent = False
         font = pygame.font.SysFont("Dungeon", 20, bold=True)
@@ -69,6 +74,11 @@ class GameController():
         self._window.fill((0, 0, 0))
         self._clock.tick(60)
 
+        if not self._main_music_playing:
+            self._main_music = pygame.mixer.music.load(f'{SOUNDS}/battle.wav')
+            pygame.mixer.music.play(-1)
+            pygame.mixer.music.set_volume(0.3)
+            self._main_music_playing = True
         # Closing the game
         for event in pygame.event.get():
             if event.type == pygame.locals.QUIT:
@@ -86,6 +96,8 @@ class GameController():
                     # Increase scores
                     self._score.kills += 1
                     self._score.kill_score += 1
+
+                    self._explosion_sound.play()
 
                     laser.kill()
                     enemy.kill()

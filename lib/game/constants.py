@@ -16,5 +16,8 @@ E_SPRITE = "lib/game/sprites/enemy_ship/Ship6.png"
 E_EXPLOSION = "lib/game/sprites/enemy_ship/explosion"
 E_SCALE = (0, 0) # x and y
 
+# Sounds
+SOUNDS = "lib/game/sounds"
+
 # API
 API_URL = 'http://localhost:5000/json'

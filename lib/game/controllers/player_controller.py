@@ -1,12 +1,15 @@
 import pygame
 import pygame.locals
-from ..constants import P_SHOOT_COOLDOWN, WIDTH, HEIGHT
+from ..constants import P_SHOOT_COOLDOWN, WIDTH, HEIGHT, SOUNDS
 from pygame.sprite import Sprite
 from ..models.player_laser import PlayerLaser
 
 class PlayerController():
     """ Handles logic for the player """
     def __init__(self, player):
+        # Shooting noise
+        self._laser_sound = pygame.mixer.Sound(f'{SOUNDS}/laser.mp3')
+        self._laser_sound.set_volume(0.5)
         self.player = player
         self._last_fired = 0
         self.lasers = pygame.sprite.Group()
@@ -29,6 +32,7 @@ class PlayerController():
         if keys[pygame.locals.K_z] or keys[pygame.locals.K_k]:
             current_ticks = pygame.time.get_ticks()
             if current_ticks > self._last_fired + P_SHOOT_COOLDOWN:
+                self._laser_sound.play()
                 self._last_fired = current_ticks
                 self._laser = PlayerLaser((self.player.rect.x, self.player.rect.y))
                 self.lasers.add(self._laser)
