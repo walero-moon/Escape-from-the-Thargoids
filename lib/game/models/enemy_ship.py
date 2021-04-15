@@ -7,14 +7,13 @@ from ..constants import E_SPRITE, E_SCALE, WIDTH, HEIGHT, E_EXPLOSION
 EXPLOSION_SPRITES = []
 for sprite in os.listdir(E_EXPLOSION):
     sprite_img = pygame.image.load(f'{E_EXPLOSION}/{sprite}')
-    sprite_img = pygame.transform.rotate(sprite_img, 180)
     EXPLOSION_SPRITES.append(sprite_img)
 class EnemyShip(Sprite):
     """ Defines the enemies' ships """
     def __init__(self):
         super().__init__()
         image = pygame.image.load(E_SPRITE)
-        self.image = pygame.transform.rotate(image, 180)
+        self.image = image
         self.rect = self.image.get_rect()
         self.rect.x = randint(WIDTH + 2 * self.rect[2], (WIDTH + 100) + 2 * self.rect[2])
         self.rect.y = randint(0, (HEIGHT + 100) - 2 * self.rect[3])
