@@ -1,6 +1,6 @@
 import pygame
 from .background import Background
-from ..constants import WIDTH, HEIGHT
+from ..constants import WIDTH, HEIGHT, FONT
 
 class DeathView():
     """ Death for the game """
@@ -8,10 +8,10 @@ class DeathView():
         self._selection_colour = (255, 111, 0)
         self._window = window
         # Fonts
-        self._font_title = pygame.font.SysFont("Dungeon", 48, bold=True)
-        self._font_btns = pygame.font.SysFont("Dungeon", 36, bold=True)
-        self._font_player = pygame.font.SysFont("Dungeon", 34, bold=True)
-        self._font_scores = pygame.font.SysFont("Dungeon", 20, bold=True)
+        self._font_title = pygame.font.Font(FONT, 48, bold=True)
+        self._font_btns = pygame.font.Font(FONT, 36, bold=True)
+        self._font_player = pygame.font.Font(FONT, 34, bold=True)
+        self._font_scores = pygame.font.Font(FONT, 20, bold=True)
         # Texts
         self._title = self._font_title.render("You died", True, (255, 255, 255))
         # Score
@@ -53,22 +53,22 @@ class DeathView():
         self._window.blit(self._km, (position_x + 20, 380))
         self._window.blit(self._kills, (position_x + 20, 410))
 
-        # Play
+        # Upload
         if selection == 'upload':
             pygame.draw.rect(self._window, self._selection_colour, 
-            ((position_x - 60), 500, 368, 70), width=5, border_radius=4)
+            ((position_x - 48), 500, 340, 70), width=5, border_radius=4)
         else:
             pygame.draw.rect(self._window, (255, 255, 255), 
-            ((position_x - 60), 500, 368, 70), width=5, border_radius=4)
-        self._window.blit(play_text, ((position_x - 60) + 20, 511))
+            ((position_x - 48), 500, 340, 70), width=5, border_radius=4)
+        self._window.blit(play_text, ((position_x - 40) + 20, 511))
 
         # Exit
         if selection == 'exit':
             pygame.draw.rect(self._window, (self._selection_colour), 
-            ((position_x + 67), 590, 124, 70), width=5, border_radius=4)
+            ((position_x + 60), 590, 122, 70), width=5, border_radius=4)
         else:
             pygame.draw.rect(self._window, (255, 255, 255), 
-            ((position_x + 67), 590, 124, 70), width=5, border_radius=4)
+            ((position_x + 60), 590, 122, 70), width=5, border_radius=4)
         self._window.blit(exit_text, ((position_x + 67) + 20, 601))
 
         self._window.blit(api, (460, 850))

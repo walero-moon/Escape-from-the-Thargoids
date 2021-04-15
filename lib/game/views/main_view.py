@@ -1,5 +1,5 @@
 import pygame
-from ..constants import BACKGROUND
+from ..constants import BACKGROUND, FONT
 from .background import Background
 
 class MainView():
@@ -13,7 +13,7 @@ class MainView():
         self._enemies = enemies
 
         # Font
-        self._font_scores = pygame.font.SysFont("Dungeon", 20, bold=True)
+        self._font_scores = pygame.font.Font(FONT, 20, bold=True)
 
         # Background animation
         self._background = Background()

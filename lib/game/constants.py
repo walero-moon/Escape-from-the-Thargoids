@@ -21,3 +21,6 @@ SOUNDS = "lib/game/sounds"
 
 # API
 API_URL = 'http://localhost:5000/json'
+
+# Font
+FONT = 'lib/game/Dungeon.ttf'
