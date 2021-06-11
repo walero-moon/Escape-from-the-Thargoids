@@ -1,6 +1,6 @@
 # Escape from the Thargoids
-This is a simple space shooter game made as a project for our Advanced Python Programming course. It relies on Pygame.
-Part of this project was creating a web API using Django.
+This is a simple space shooter game. It relies on Pygame.
+Part of this project was creating a RESTful JSON API using Django.
 High scores are saved locally on **scores.json**. Alternatively they can also be uploaded to the webserver through an in-game button.
 #### Start screen
 ![Game start screen](https://user-images.githubusercontent.com/61264517/120575603-c71f7c80-c3f7-11eb-87eb-6a3035c44ac8.png)
